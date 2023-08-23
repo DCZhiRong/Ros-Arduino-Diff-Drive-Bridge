@@ -5,8 +5,8 @@ Just some Arduino code for communicating with a fork of [Josh Newans's diffdrive
 The arduino code here assumes you are using an ams as5048b with a cytron motor driver.
 
 The following external libraries are being used:
-* [sosandroid's ams as5048b library](https://github.com/sosandroid/AMS_AS5048B)
-* [cytron motor driver library](https://github.com/CytronTechnologies/CytronMotorDriver)
+- [sosandroid's ams as5048b library](https://github.com/sosandroid/AMS_AS5048B)
+- [cytron motor driver library](https://github.com/CytronTechnologies/CytronMotorDriver)
 
 ## How to use
 The arduino code takes in serial commands and parses them into motor speed controls
