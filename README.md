@@ -22,13 +22,13 @@ e 20 20
 
 ## Modes
 ### e - target speed mode
-Motor args are in rotations per sec and are multiplied by 10.
+Motor args are in radians per sec and are multiplied by 1o0.
 - Note that negative motor args cause the motors to reverse their direction
 - If either one or both motor args aren't sent the program will just assume their value is 0
 
-Setting a motor speed of 1 rev/s would look like this
+Setting a motor speed of 1 rad/s would look like this
 ```
-e 10 10
+e 100 100
 ```
 and would return
 ```
@@ -58,7 +58,7 @@ Using it would look like this
 ```
 s 
 ```
-and would return motor speed in revs/s
+and would return motor speed in rads/s
 ```
 1.0
 ```
