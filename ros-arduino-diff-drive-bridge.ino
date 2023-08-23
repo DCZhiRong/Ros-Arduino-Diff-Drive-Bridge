@@ -46,9 +46,9 @@ float e_integral1 = 0.0;
 float pre_error1 = 0.0;
 float e_integral2 = 0.0;
 float pre_error2 = 0.0;
-float kp = 70;
-float ki = 0.001;
-float kd = 0.03;
+float kp = 200;
+float ki = 1300;
+float kd = 0.001;
 //motor & encoder setup
 AMS_AS5048B mysensor[] = {
                             AMS_AS5048B(0x40),
@@ -112,8 +112,8 @@ void askUserInput(){
         case 'e':
           rpsInput1 = float(num1)/100;
           rpsInput2 = float(num2)/100;
-          rpsInput1 = (2*rpsInput1)/(2*M_PI);
-          rpsInput2 = (2*rpsInput2)/(2*M_PI);
+          rpsInput1 = (rpsInput1)/(2*M_PI);
+          rpsInput2 = (rpsInput2)/(2*M_PI);
           e_integral1 = 0.0;
           pre_error1 = 0.0;
           e_integral2 = 0.0;
@@ -129,9 +129,9 @@ void askUserInput(){
           break;
         case 's':
           usersetting = pre;
-          Serial.print(rpsMeasured1*M_PI);
+          Serial.print(rpsMeasured1*2*M_PI);
           Serial.print(" ");
-          Serial.println(rpsMeasured2*M_PI);
+          Serial.println(rpsMeasured2*2*M_PI);
           break;
         case 'a':
           usersetting = pre;
