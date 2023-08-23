@@ -18,25 +18,39 @@ An example would be like:
 ```
 e 20 20
 ```
+
+## Modes
+### e - target speed mode
+Motor args are in rotations per sec and are multiplied by 10.
+***Note that negative motor args cause the motors to reverse their direction
+***If either one or both motor args aren't sent the program will just assume their value is 0
+
+Setting a motor speed of 1 rev/s would look like this
+```
+e 10 10
+```
 and would return
 ```
 OK
 ```
 If everything is fine
 
-## Modes
-### e - target speed mode
-Motor args are in rotations per sec and are multiplied by 10.
-
-Setting a motor speed of 1 rev/s would look like this
-```
-e 10 10
-```
-Negative motor args cause the motors to reverse their direction
 
 ### p - raw pwm mode
 Motor args are in 8 bit integers and directly control the pwm level sent to the motor driver.
-Negative values cause the direction to reverse
+***Note that negative motor args cause the motors to reverse their direction
+***If either one or both motor args aren't sent the program will just assume their value is 0
+
+Setting a pwm value of 255 would look like this
+```
+p 255 255
+```
+and would return
+```
+OK
+```
+If everything is fine
+
 
 ## r - returns the measured speed at the time
 
