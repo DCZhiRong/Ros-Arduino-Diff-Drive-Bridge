@@ -23,8 +23,8 @@ e 20 20
 ## Modes
 ### e - target speed mode
 Motor args are in rotations per sec and are multiplied by 10.
-***Note that negative motor args cause the motors to reverse their direction
-***If either one or both motor args aren't sent the program will just assume their value is 0
+- Note that negative motor args cause the motors to reverse their direction
+- If either one or both motor args aren't sent the program will just assume their value is 0
 
 Setting a motor speed of 1 rev/s would look like this
 ```
@@ -39,8 +39,8 @@ If everything is fine
 
 ### p - raw pwm mode
 Motor args are in 8 bit integers and directly control the pwm level sent to the motor driver.
-***Note that negative motor args cause the motors to reverse their direction
-***If either one or both motor args aren't sent the program will just assume their value is 0
+- Note that negative motor args cause the motors to reverse their direction
+- If either one or both motor args aren't sent the program will just assume their value is 0
 
 Setting a pwm value of 255 would look like this
 ```
