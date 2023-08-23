@@ -129,9 +129,9 @@ void askUserInput(){
           break;
         case 's':
           usersetting = pre;
-          Serial.print(rpsMeasured1);
+          Serial.print(rpsMeasured1*M_PI);
           Serial.print(" ");
-          Serial.println(rpsMeasured2);
+          Serial.println(rpsMeasured2*M_PI);
           break;
         case 'a':
           usersetting = pre;
