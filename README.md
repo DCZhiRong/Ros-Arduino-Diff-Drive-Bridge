@@ -1,7 +1,7 @@
 # Ros-Arduino-Diff-Drive-Bridge
 Just some Arduino code for communicating with a fork of [Josh Newans's diffdrive arduino library](https://github.com/joshnewans/diffdrive_arduino) (I hope this is how to spell your name)
 
-##Hardware specifications
+### Hardware specifications
 The arduino code here assumes you are using an ams as5048b with a cytron motor driver.
 The following external libraries are being used
 *[sosandroid's ams as5048b library](https://github.com/sosandroid/AMS_AS5048B)
