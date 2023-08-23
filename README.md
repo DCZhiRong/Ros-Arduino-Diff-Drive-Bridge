@@ -52,5 +52,12 @@ OK
 If everything is fine
 
 
-## r - returns the measured speed at the time
-
+## s - returns the measured speed at the time
+Using it would look like this
+```
+s 
+```
+and would return motor speed in revs/s
+```
+1.0
+```
