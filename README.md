@@ -25,7 +25,7 @@ OK
 If everything is fine
 
 ## Modes
-###e - target speed mode
+### e - target speed mode
 Motor args are in rotations per sec and are multiplied by 10.
 
 Setting a motor speed of 1 rev/s would look like this
@@ -34,9 +34,9 @@ e 10 10
 ```
 Negative motor args cause the motors to reverse their direction
 
-###p - raw pwm mode
+### p - raw pwm mode
 Motor args are in 8 bit integers and directly control the pwm level sent to the motor driver.
 Negative values cause the direction to reverse
 
-##r - returns the measured speed at the time
+## r - returns the measured speed at the time
 
