@@ -52,7 +52,7 @@ float kd = 0.03;
 //motor & encoder setup
 AMS_AS5048B mysensor[] = {
                             AMS_AS5048B(0x40),
-                            AMS_AS5048B(0x41),
+                            AMS_AS5048B(0x40),
                          };
 
 CytronMD motor[] = {
@@ -110,8 +110,10 @@ void askUserInput(){
       switch(usersetting)
       {
         case 'e':
-          rpsInput1 = float(2*num1)/10;
-          rpsInput2 = float(2*num2)/10;
+          rpsInput1 = float(num1)/100;
+          rpsInput2 = float(num2)/100;
+          rpsInput1 = (2*rpsInput1)/(2*M_PI);
+          rpsInput2 = (2*rpsInput2)/(2*M_PI);
           e_integral1 = 0.0;
           pre_error1 = 0.0;
           e_integral2 = 0.0;
@@ -127,7 +129,15 @@ void askUserInput(){
           break;
         case 's':
           usersetting = pre;
-          Serial.println(rpsMeasured1);
+          Serial.print(rpsMeasured1);
+          Serial.print(" ");
+          Serial.println(rpsMeasured2);
+          break;
+        case 'a':
+          usersetting = pre;
+          Serial.print(mysensor[0].angleR(U_RAD, true));
+          Serial.print(" ");
+          Serial.println(mysensor[1].angleR(U_RAD, true));
           break;
       }
     }
