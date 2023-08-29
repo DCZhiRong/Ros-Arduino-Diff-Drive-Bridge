@@ -23,6 +23,8 @@ float prev_angle1 = 0;
 float prev_angle2 = 0;
 float target_angle1 = 0.1;
 float target_angle2 = 0.1;
+long pos1 = 0;
+long pos2 = 0;
 
 //Speed control stuff
 unsigned long cur_angle_time1, prev_angle_time1;
@@ -52,7 +54,7 @@ float kd = 0.001;
 //motor & encoder setup
 AMS_AS5048B mysensor[] = {
                             AMS_AS5048B(0x40),
-                            AMS_AS5048B(0x40),
+                            AMS_AS5048B(0x41),
                          };
 
 CytronMD motor[] = {
@@ -61,8 +63,8 @@ CytronMD motor[] = {
                    };  
 
 void setup() {
-  Serial.begin(9600);
-  Serial.setTimeout(10);
+  Serial.begin(57600);
+  Serial.setTimeout(30);
   for (int i = 0; i < sizeof(motor)/sizeof(CytronMD); i ++)
   {
     mysensor[i].begin(); 
@@ -92,8 +94,8 @@ void loop() {
   //Serial.print(rpsMeasured1);
   //Serial.print(" | rpsInput: ");
   //Serial.println(rpsInput1/2);
-  check_speed(&prev_angle1, &prev_angle_time1, &rpsMeasured1, mysensor[0]);
-  check_speed(&prev_angle2, &prev_angle_time2, &rpsMeasured2, mysensor[1]);
+  check_speed(&prev_angle1, &prev_angle_time1, &rpsMeasured1, mysensor[0], &pos1);
+  check_speed(&prev_angle2, &prev_angle_time2, &rpsMeasured2, mysensor[1], &pos2);
 
 }
 
@@ -135,9 +137,9 @@ void askUserInput(){
           break;
         case 'a':
           usersetting = pre;
-          Serial.print(mysensor[0].angleR(U_RAD, true));
+          Serial.print(pos1/100);
           Serial.print(" ");
-          Serial.println(mysensor[1].angleR(U_RAD, true));
+          Serial.println(pos2/100);
           break;
       }
     }
@@ -158,7 +160,7 @@ void motor_control(float rpsMeasured, float rpsInput, float *speedInput, float *
   motor.setSpeed(*speedInput);
 }
 
-void check_speed(float *prev_angle, unsigned long *prev_angle_time, float *rpsMeasured, AMS_AS5048B mysensor)
+void check_speed(float *prev_angle, unsigned long *prev_angle_time, float *rpsMeasured, AMS_AS5048B mysensor, long *pos)
 {
   float cur_angle=(mysensor.angleR(U_DEG, true));
   long cur_angle_time = micros();
@@ -172,6 +174,7 @@ void check_speed(float *prev_angle, unsigned long *prev_angle_time, float *rpsMe
   {
     angle_diff += 360;
   }
+  *pos += angle_diff*100;
   *rpsMeasured=(angle_diff*1.0e6)/(angle_time_diff*360);
   *prev_angle = cur_angle;
   *prev_angle_time = cur_angle_time;
