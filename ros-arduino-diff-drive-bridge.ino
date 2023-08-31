@@ -13,6 +13,8 @@
 #define U_MILSE 9
 #define U_MILRU 10
 
+float smoothing = 1; //ratio of new value to old value, higher increases reaction speed but is more noisy
+
 //r2d2 constants
 const float gearReduction = 0.5; //gear:wheel
 
@@ -49,8 +51,8 @@ float pre_error1 = 0.0;
 float e_integral2 = 0.0;
 float pre_error2 = 0.0;
 float kp = 200;
-float ki = 1300;
-float kd = 0.001;
+float ki = 500;
+float kd = 0.01;
 //motor & encoder setup
 AMS_AS5048B mysensor[] = {
                             AMS_AS5048B(0x40),
@@ -58,8 +60,8 @@ AMS_AS5048B mysensor[] = {
                          };
 
 CytronMD motor[] = {
-                    CytronMD(PWM_DIR, 3, 4), //motor1: AN1 = Pin 3, DIG1 = Pin 4
-                    CytronMD(PWM_DIR, 5, 6), // motor2: An2 = Pin 5, DIG2 = Pin 6. 
+                    CytronMD(PWM_DIR, 5, 6), //motor1(left): AN1 = Pin 5, DIG1 = Pin 6
+                    CytronMD(PWM_DIR, 3, 4), // motor2(right): An2 = Pin 3, DIG2 = Pin 4. 
                    };  
 
 void setup() {
@@ -83,7 +85,7 @@ void loop() {
     case 'e':
       //check_speed(&prev_angle1, &prev_angle_time1, &rpsMeasured1);
       motor_control(rpsMeasured1, rpsInput1, &speedInput1, &e_integral1, &pre_error1, &prevT1, motor[0]);
-      motor_control(rpsMeasured2, rpsInput2, &speedInput2, &e_integral2, &pre_error2, &prevT2, motor[1] );
+      motor_control(rpsMeasured2, rpsInput2, &speedInput2, &e_integral2, &pre_error2, &prevT2, motor[1]);
       break;
     case 'p':
       motor[0].setSpeed(speedInput1);
@@ -115,7 +117,7 @@ void askUserInput(){
           rpsInput1 = float(num1)/100;
           rpsInput2 = float(num2)/100;
           rpsInput1 = (rpsInput1)/(2*M_PI);
-          rpsInput2 = (rpsInput2)/(2*M_PI);
+          rpsInput2 = -(rpsInput2)/(2*M_PI);
           e_integral1 = 0.0;
           pre_error1 = 0.0;
           e_integral2 = 0.0;
@@ -131,13 +133,13 @@ void askUserInput(){
           break;
         case 's':
           usersetting = pre;
-          Serial.print(rpsMeasured1*2*M_PI);
+          Serial.print(-rpsMeasured1*2*M_PI);
           Serial.print(" ");
           Serial.println(rpsMeasured2*2*M_PI);
           break;
         case 'a':
           usersetting = pre;
-          Serial.print(pos1/100);
+          Serial.print(-pos1/100);
           Serial.print(" ");
           Serial.println(pos2/100);
           break;
@@ -162,7 +164,7 @@ void motor_control(float rpsMeasured, float rpsInput, float *speedInput, float *
 
 void check_speed(float *prev_angle, unsigned long *prev_angle_time, float *rpsMeasured, AMS_AS5048B mysensor, long *pos)
 {
-  float cur_angle=(mysensor.angleR(U_DEG, true));
+  float cur_angle=(mysensor.angleR(U_DEG, true))*(smoothing) + *prev_angle*(1-smoothing);
   long cur_angle_time = micros();
   float angle_diff = cur_angle-*prev_angle;
   long angle_time_diff = cur_angle_time-*prev_angle_time;
